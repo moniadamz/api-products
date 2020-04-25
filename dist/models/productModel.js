@@ -1,7 +1,7 @@
-import * as mongoose from 'mongoose'
-
-const Schema = mongoose.Schema
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 const ProductSchema = new Schema({
     sku: {
         type: String,
@@ -25,5 +25,6 @@ const ProductSchema = new Schema({
         type: Date,
         default: Date.now
     }
-})
-export default mongoose.model('Product', ProductSchema)
+});
+exports.default = mongoose.model('Product', ProductSchema);
+//# sourceMappingURL=productModel.js.map
