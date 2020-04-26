@@ -4,55 +4,53 @@ import { Request, Response } from "express";
 export class ProductController {
   constructor() {}
 
-  public addNewProduct(req: Request, res: Response) {
-    const newProduct = new Product(req.body);
-
-    newProduct.save((err, product) => {
-      if (err) {
-        res.send(err);
-      }
-      res.json(product);
-    });
-  }
-
-    async getProducts(req: Request, res: Response) {
+  async addNewProduct(req: Request, res: Response) {
     try {
-      const product = await Product.find({})
-      res.json(product)
+      const newProduct = new Product(req.body);
+
+      const product = await newProduct.save();
+      res.json(product);
     } catch (error) {
-      res.send(error)
+      res.send(error);
     }
   }
 
-  public getProductById(req: Request, res: Response) {
-    Product.findById(req.params.productId, (err, product) => {
-      if (err) {
-        res.send(err);
-      }
+  async getProducts(req: Request, res: Response) {
+    try {
+      const product = await Product.find({});
       res.json(product);
-    });
+    } catch (error) {
+      res.send(error);
+    }
   }
 
-  public updateProduct(req: Request, res: Response) {
-    Product.findOneAndUpdate(
-      { _id: req.params.productId },
-      req.body,
-      { new: true },
-      (err, product) => {
-        if (err) {
-          res.send(err);
-        }
-        res.json(product);
-      }
-    );
+  async getProductById(req: Request, res: Response) {
+    try {
+      const product = await Product.findById(req.params.productId);
+      res.json(product);
+    } catch (error) {
+      res.send(error);
+    }
   }
 
-  public deleteProduct(req: Request, res: Response) {
-    Product.remove(req.params.productId, (err, product) => {
-      if (err) {
-        res.send(err);
-      }
+  async updateProduct(req: Request, res: Response) {
+    try {
+      const product = await Product.findOneAndUpdate(
+        { _id: req.params.productId },
+        req.body
+      );
+      res.json(product);
+    } catch (error) {
+      res.send(error);
+    }
+  }
+
+  async deleteProduct(req: Request, res: Response) {
+    try {
+      await Product.remove(req.params.productId);
       res.json({ message: "Product deleted." });
-    });
+    } catch (error) {
+      res.send(error);
+    }
   }
 }

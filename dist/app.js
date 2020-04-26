@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 class App {
     constructor() {
         this.routePrv = new productRoute_1.Routes();
-        this.mongoUrl = 'mongodb+srv://moni:2706Moni@cluster0-uzuzx.mongodb.net/api-products?retryWrites=true&w=majority';
+        this.mongoUrl = process.env.MONGO_URL;
         this.app = express();
         this.config();
         this.routePrv.routes(this.app);

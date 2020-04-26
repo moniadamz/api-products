@@ -13,20 +13,21 @@ const productModel_1 = require("../models/productModel");
 class ProductController {
     constructor() { }
     addNewProduct(req, res) {
-        const newProduct = new productModel_1.default(req.body);
-        newProduct.save((err, product) => {
-            if (err) {
-                res.send(err);
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const newProduct = new productModel_1.default(req.body);
+                const product = yield newProduct.save();
+                res.json(product);
             }
-            res.json(product);
+            catch (error) {
+                res.send(error);
+            }
         });
     }
     getProducts(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log('antes');
                 const product = yield productModel_1.default.find({});
-                console.log('depois');
                 res.json(product);
             }
             catch (error) {
@@ -35,27 +36,36 @@ class ProductController {
         });
     }
     getProductById(req, res) {
-        productModel_1.default.findById(req.params.productId, (err, product) => {
-            if (err) {
-                res.send(err);
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const product = yield productModel_1.default.findById(req.params.productId);
+                res.json(product);
             }
-            res.json(product);
+            catch (error) {
+                res.send(error);
+            }
         });
     }
     updateProduct(req, res) {
-        productModel_1.default.findOneAndUpdate({ _id: req.params.productId }, req.body, { new: true }, (err, product) => {
-            if (err) {
-                res.send(err);
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const product = yield productModel_1.default.findOneAndUpdate({ _id: req.params.productId }, req.body);
+                res.json(product);
             }
-            res.json(product);
+            catch (error) {
+                res.send(error);
+            }
         });
     }
     deleteProduct(req, res) {
-        productModel_1.default.remove(req.params.productId, (err, product) => {
-            if (err) {
-                res.send(err);
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield productModel_1.default.remove(req.params.productId);
+                res.json({ message: "Product deleted." });
             }
-            res.json({ message: "Product deleted." });
+            catch (error) {
+                res.send(error);
+            }
         });
     }
 }

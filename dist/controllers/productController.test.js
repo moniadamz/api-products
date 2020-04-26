@@ -13,21 +13,55 @@ jest.setTimeout(30000);
 const productController_1 = require("./productController");
 const productModel_1 = require("../models/productModel");
 describe("Product Controller", () => {
-    const req = {};
+    let req = {};
     const res = {
         send: jest.fn(),
         json: jest.fn(),
     };
     beforeAll(() => {
+        req = {};
         productModel_1.default.find = jest.fn().mockResolvedValue({ _id: "123" });
+        productModel_1.default.save = jest.fn().mockResolvedValue({ _id: "123" });
+        productModel_1.default.findById = jest.fn().mockResolvedValue({ _id: "123" });
+        productModel_1.default.findOneAndUpdate = jest.fn().mockResolvedValue({ _id: "123" });
+        productModel_1.default.remove = jest.fn();
     });
     describe("getProducts", () => {
         test("product must return successfully", () => __awaiter(void 0, void 0, void 0, function* () {
             const productController = new productController_1.ProductController();
-            const product = yield productController.getProducts(req, res);
+            yield productController.getProducts(req, res);
             expect(res.json).toHaveBeenCalled();
             expect(res.json).toHaveBeenCalledWith({ _id: '123' });
             expect(productModel_1.default.find).toHaveBeenCalled();
+        }));
+    });
+    describe("addNewProduct", () => {
+        test("product must return successfully", () => __awaiter(void 0, void 0, void 0, function* () {
+            req.body = { name: 'abc' };
+            const productController = new productController_1.ProductController();
+            yield productController.addNewProduct(req, res);
+            expect(res.json).toHaveBeenCalled();
+        }));
+    });
+    describe("getProductById", () => {
+        test("product must return successfully", () => __awaiter(void 0, void 0, void 0, function* () {
+            req.params = { productId: '123' };
+            const productController = new productController_1.ProductController();
+            yield productController.getProductById(req, res);
+            expect(res.json).toHaveBeenCalled();
+            expect(res.json).toHaveBeenCalledWith({ _id: '123' });
+            expect(productModel_1.default.findById).toHaveBeenCalledWith('123');
+        }));
+    });
+    describe("updateProduct", () => {
+        test("product must return successfully", () => __awaiter(void 0, void 0, void 0, function* () {
+            req.params = { productId: '123' };
+            req.body = { name: 'abc' };
+            const productController = new productController_1.ProductController();
+            yield productController.updateProduct(req, res);
+            expect(res.json).toHaveBeenCalled();
+            expect(res.json).toHaveBeenCalledWith({ _id: '123' });
+            expect(productModel_1.default.findOneAndUpdate).toHaveBeenCalledWith({ _id: '123' }, { name: 'abc' });
         }));
     });
 });
