@@ -1,7 +1,7 @@
-jest.setTimeout(30000);
+jest.mock('mongoose-paginate-v2', () => jest.fn())
+
 import { ProductController } from "./productController";
 import Product from "../models/productModel";
-
 describe("Product Controller", () => {
   let req: any = {};
   const res: any = {
@@ -10,7 +10,7 @@ describe("Product Controller", () => {
   };
   beforeAll(() => {
     req = {}
-    Product.find = jest.fn().mockResolvedValue({ _id: "123" });
+    Product.paginate = jest.fn().mockResolvedValue({ _id: "123" });
     Product.save = jest.fn().mockResolvedValue({ _id: "123" });
     Product.findById = jest.fn().mockResolvedValue({ _id: "123" });
     Product.findOneAndUpdate = jest.fn().mockResolvedValue({ _id: "123" });
@@ -19,11 +19,12 @@ describe("Product Controller", () => {
 
   describe("getProducts", () => {
     test("product must return successfully", async () => {
+      req.query = { offset: 0, limit: 1 }
       const productController = new ProductController();
       await productController.getProducts(req, res);
       expect(res.json).toHaveBeenCalled()
       expect(res.json).toHaveBeenCalledWith({ _id: '123' })
-      expect(Product.find).toHaveBeenCalled();
+      expect(Product.paginate).toHaveBeenCalled();
     });
   });
 

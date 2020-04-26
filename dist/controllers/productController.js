@@ -27,7 +27,7 @@ class ProductController {
     getProducts(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const product = yield productModel_1.default.find({});
+                const product = yield productModel_1.default.paginate({}, { offset: req.query.offset || 0, limit: req.query.limit || 1 });
                 res.json(product);
             }
             catch (error) {

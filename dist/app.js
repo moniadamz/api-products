@@ -5,9 +5,10 @@ const bodyParser = require("body-parser");
 const productRoute_1 = require("./routes/productRoute");
 const mongoose = require("mongoose");
 class App {
+    //process.env.MONGO_URL
     constructor() {
         this.routePrv = new productRoute_1.Routes();
-        this.mongoUrl = process.env.MONGO_URL;
+        this.mongoUrl = 'mongodb+srv://moni:2706Moni@cluster0-uzuzx.mongodb.net/api-products?retryWrites=true&w=majority';
         this.app = express();
         this.config();
         this.routePrv.routes(this.app);

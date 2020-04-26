@@ -1,18 +1,18 @@
 import { ProductController } from "../controllers/productController"
-
+import _ from '../middlewares/auth'
 export class Routes {
   public productController: ProductController = new ProductController()
 
   public routes(app): void {
 
-    app.route("/products").get(this.productController.getProducts)
+    app.get("/products", this.productController.getProducts)
 
-    app.route("/products").post(this.productController.addNewProduct)
+    app.post("/products", _.authenticate, this.productController.addNewProduct)
 
-    app.route("/products/:productId").get(this.productController.getProductById)
+    app.get("/products/:productId", this.productController.getProductById)
 
-    app.route("/products/:productId").put(this.productController.updateProduct)
+    app.put("/products/:productId", _.authenticate, this.productController.updateProduct)
     
-    app.route("/products/:productId").delete(this.productController.deleteProduct)
+    app.delete("/products/:productId", _.authenticate, this.productController.deleteProduct)
   }
 }

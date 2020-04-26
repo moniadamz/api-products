@@ -17,7 +17,7 @@ export class ProductController {
 
   async getProducts(req: Request, res: Response) {
     try {
-      const product = await Product.find({});
+      const product = await Product.paginate({}, { offset: req.query.offset || 0, limit: req.query.limit || 10 });
       res.json(product);
     } catch (error) {
       res.send(error);

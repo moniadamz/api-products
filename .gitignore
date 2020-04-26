@@ -50,4 +50,7 @@ build/
 tmp/
 temp/
 
+#environment variables
+.env
+
 # End of https://www.gitignore.io/api/node

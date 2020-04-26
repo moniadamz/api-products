@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-jest.setTimeout(30000);
+jest.mock('mongoose-paginate-v2', () => jest.fn());
 const productController_1 = require("./productController");
 const productModel_1 = require("../models/productModel");
 describe("Product Controller", () => {
@@ -20,7 +20,7 @@ describe("Product Controller", () => {
     };
     beforeAll(() => {
         req = {};
-        productModel_1.default.find = jest.fn().mockResolvedValue({ _id: "123" });
+        productModel_1.default.paginate = jest.fn().mockResolvedValue({ _id: "123" });
         productModel_1.default.save = jest.fn().mockResolvedValue({ _id: "123" });
         productModel_1.default.findById = jest.fn().mockResolvedValue({ _id: "123" });
         productModel_1.default.findOneAndUpdate = jest.fn().mockResolvedValue({ _id: "123" });
@@ -28,11 +28,12 @@ describe("Product Controller", () => {
     });
     describe("getProducts", () => {
         test("product must return successfully", () => __awaiter(void 0, void 0, void 0, function* () {
+            req.query = { offset: 0, limit: 1 };
             const productController = new productController_1.ProductController();
             yield productController.getProducts(req, res);
             expect(res.json).toHaveBeenCalled();
             expect(res.json).toHaveBeenCalledWith({ _id: '123' });
-            expect(productModel_1.default.find).toHaveBeenCalled();
+            expect(productModel_1.default.paginate).toHaveBeenCalled();
         }));
     });
     describe("addNewProduct", () => {
