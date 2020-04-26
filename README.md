@@ -14,7 +14,7 @@ Microsserviço de Produtos utilizando [Atlas](https://cloud.mongodb.com) e hospe
 
 - Para executar localmente é necessário criar o arquivo .env com os seguintes valores:
 
-```SECRET=xxx```
+```SECRET=fa93126886e3a380073b2edbc19e2544c4a```
 
 ```MONGO_URL=xxx```
 
@@ -46,7 +46,7 @@ POST: [http://localhost:3000/products](http://localhost:3000/products)
 
 Headers:
 
-Campo **authorization** no header com o token do usuário
+Campo **authentication** no header com o token do usuário. O token do usuário deve ser obtido no endpoint ```https://node-ts-api-authentication.herokuapp.com/auth``` informando ```user``` e ```password``` conforme explicado [aqui](https://github.com/moniadamz/api-authentication/blob/master/README.md).
 
 Body:
 
