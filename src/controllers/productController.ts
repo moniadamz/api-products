@@ -11,7 +11,7 @@ export class ProductController {
       const product = await newProduct.save();
       res.json(product);
     } catch (error) {
-      res.send(error);
+      res.status(400).send(error);
     }
   }
 
@@ -29,7 +29,7 @@ export class ProductController {
       const product = await Product.findById(req.params.productId);
       res.json(product);
     } catch (error) {
-      res.send(error);
+      res.status(404).send({ message: 'Product not found.'});
     }
   }
 
@@ -37,20 +37,20 @@ export class ProductController {
     try {
       const product = await Product.findOneAndUpdate(
         { _id: req.params.productId },
-        req.body
+        req.body, { new: true }
       );
       res.json(product);
     } catch (error) {
-      res.send(error);
+      res.status(404).send({ message: 'Product not found.'});
     }
   }
 
   async deleteProduct(req: Request, res: Response) {
     try {
-      await Product.remove(req.params.productId);
+      await Product.findOneAndDelete(req.params.productId);
       res.json({ message: "Product deleted." });
     } catch (error) {
-      res.send(error);
+      res.status(404).send({ message: 'Product not found.'});
     }
   }
 }

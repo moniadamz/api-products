@@ -7,7 +7,6 @@ class Authentication {
     try {
       const token = req.headers.authentication;
       if (!token || token == undefined){
-        console.log('alo')
         return res.status(401).send({ message: "Unauthorized." });
       }
       jwt.verify(token.toString(), process.env.SECRET );

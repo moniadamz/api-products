@@ -20,14 +20,14 @@ class ProductController {
                 res.json(product);
             }
             catch (error) {
-                res.send(error);
+                res.status(400).send(error);
             }
         });
     }
     getProducts(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const product = yield productModel_1.default.paginate({}, { offset: req.query.offset || 0, limit: req.query.limit || 1 });
+                const product = yield productModel_1.default.paginate({}, { offset: req.query.offset || 0, limit: req.query.limit || 10 });
                 res.json(product);
             }
             catch (error) {
@@ -42,29 +42,29 @@ class ProductController {
                 res.json(product);
             }
             catch (error) {
-                res.send(error);
+                res.status(404).send({ message: 'Product not found.' });
             }
         });
     }
     updateProduct(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const product = yield productModel_1.default.findOneAndUpdate({ _id: req.params.productId }, req.body);
+                const product = yield productModel_1.default.findOneAndUpdate({ _id: req.params.productId }, req.body, { new: true });
                 res.json(product);
             }
             catch (error) {
-                res.send(error);
+                res.status(404).send({ message: 'Product not found.' });
             }
         });
     }
     deleteProduct(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield productModel_1.default.remove(req.params.productId);
+                yield productModel_1.default.findOneAndDelete(req.params.productId);
                 res.json({ message: "Product deleted." });
             }
             catch (error) {
-                res.send(error);
+                res.status(404).send({ message: 'Product not found.' });
             }
         });
     }

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-jest.mock('mongoose-paginate-v2', () => jest.fn());
+jest.mock("mongoose-paginate-v2", () => jest.fn());
 const productController_1 = require("./productController");
 const productModel_1 = require("../models/productModel");
 describe("Product Controller", () => {
@@ -17,6 +17,9 @@ describe("Product Controller", () => {
     const res = {
         send: jest.fn(),
         json: jest.fn(),
+        status: jest.fn().mockResolvedValue({
+            send: jest.fn().mockRejectedValue('')
+        })
     };
     beforeAll(() => {
         req = {};
@@ -24,7 +27,6 @@ describe("Product Controller", () => {
         productModel_1.default.save = jest.fn().mockResolvedValue({ _id: "123" });
         productModel_1.default.findById = jest.fn().mockResolvedValue({ _id: "123" });
         productModel_1.default.findOneAndUpdate = jest.fn().mockResolvedValue({ _id: "123" });
-        productModel_1.default.remove = jest.fn();
     });
     describe("getProducts", () => {
         test("product must return successfully", () => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,37 +34,29 @@ describe("Product Controller", () => {
             const productController = new productController_1.ProductController();
             yield productController.getProducts(req, res);
             expect(res.json).toHaveBeenCalled();
-            expect(res.json).toHaveBeenCalledWith({ _id: '123' });
+            expect(res.json).toHaveBeenCalledWith({ _id: "123" });
             expect(productModel_1.default.paginate).toHaveBeenCalled();
-        }));
-    });
-    describe("addNewProduct", () => {
-        test("product must return successfully", () => __awaiter(void 0, void 0, void 0, function* () {
-            req.body = { name: 'abc' };
-            const productController = new productController_1.ProductController();
-            yield productController.addNewProduct(req, res);
-            expect(res.json).toHaveBeenCalled();
         }));
     });
     describe("getProductById", () => {
         test("product must return successfully", () => __awaiter(void 0, void 0, void 0, function* () {
-            req.params = { productId: '123' };
+            req.params = { productId: "123" };
             const productController = new productController_1.ProductController();
             yield productController.getProductById(req, res);
             expect(res.json).toHaveBeenCalled();
-            expect(res.json).toHaveBeenCalledWith({ _id: '123' });
-            expect(productModel_1.default.findById).toHaveBeenCalledWith('123');
+            expect(res.json).toHaveBeenCalledWith({ _id: "123" });
+            expect(productModel_1.default.findById).toHaveBeenCalledWith("123");
         }));
     });
     describe("updateProduct", () => {
         test("product must return successfully", () => __awaiter(void 0, void 0, void 0, function* () {
-            req.params = { productId: '123' };
-            req.body = { name: 'abc' };
+            req.params = { productId: "123" };
+            req.body = { name: "abc" };
             const productController = new productController_1.ProductController();
             yield productController.updateProduct(req, res);
             expect(res.json).toHaveBeenCalled();
-            expect(res.json).toHaveBeenCalledWith({ _id: '123' });
-            expect(productModel_1.default.findOneAndUpdate).toHaveBeenCalledWith({ _id: '123' }, { name: 'abc' });
+            expect(res.json).toHaveBeenCalledWith({ _id: "123" });
+            expect(productModel_1.default.findOneAndUpdate).toHaveBeenCalledWith({ _id: "123" }, { name: "abc" }, { new: true });
         }));
     });
 });
