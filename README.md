@@ -62,4 +62,33 @@ Body:
 
 #### RESPONSE
 
-Objeto com os dados do produto registrado.
+## Exemplo de response
+
+```{
+    "docs": [
+        {
+            "_id": "5ed483906e69dd4c15e38bf5",
+            "createdAt": "2001-05-31T06:30:01.000Z",
+            "idCleanup": "684E9A347F",
+            "message_id": "xxxxxxxx.xxxxxxxx-sendEmail@postfix",
+            "__v": 0
+        },
+        {
+            "_id": "5ed483906e69dd4c15e38bf7",
+            "createdAt": "2001-05-31T06:30:01.000Z",
+            "idCleanup": "7D3A7A3486",
+            "message_id": "xxxxxxx.xxxxxxxxxxx@postfix.us-central1-a.c.postfix-log-analyzer.internal",
+            "__v": 0
+        },
+    ],
+    "totalDocs": 528,
+    "offset": 0,
+    "limit": 10,
+    "totalPages": 53,
+    "page": 1,
+    "pagingCounter": 1,
+    "hasPrevPage": false,
+    "hasNextPage": true,
+    "prevPage": null,
+    "nextPage": 2
+}```
